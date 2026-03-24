@@ -28,16 +28,62 @@ export default function ContactForm() {
     }));
   };
 
+  const validateForm = () => {
+    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
+      return { valid: false, message: 'All fields are required' };
+    }
+    if (formData.name.length > 100) {
+      return { valid: false, message: 'Name must be less than 100 characters' };
+    }
+    if (formData.message.length > 5000) {
+      return { valid: false, message: 'Message must be less than 5000 characters' };
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      return { valid: false, message: 'Please enter a valid email address' };
+    }
+    return { valid: true };
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Show acknowledgment message
-    setIsSubmitted(true);
-    // Clear the form
-    setFormData({ name: '', email: '', message: '' });
-    // Hide acknowledgment after 5 seconds
-    setTimeout(() => {
-      setIsSubmitted(false);
-    }, 5000);
+    
+    const validation = validateForm();
+    if (!validation.valid) {
+      alert(validation.message);
+      return;
+    }
+    
+    const { name, email, message } = formData;
+    
+    // Format the message for email
+    const emailBody = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
+    
+    // Copy to clipboard
+    navigator.clipboard.writeText(emailBody).then(() => {
+      // Create mailto link with subject
+      const mailto = `mailto:sumaidlinkedin@gmail.com?subject=Contact from ${encodeURIComponent(name)}&body=${encodeURIComponent(emailBody)}`;
+      
+      // Open email client
+      window.open(mailto);
+      
+      // Show acknowledgment message
+      setIsSubmitted(true);
+      // Clear the form
+      setFormData({ name: '', email: '', message: '' });
+      // Hide acknowledgment after 5 seconds
+      setTimeout(() => {
+        setIsSubmitted(false);
+      }, 5000);
+    }).catch(() => {
+      // Fallback if clipboard fails
+      window.location.href = `mailto:sumaidlinkedin@gmail.com?subject=Contact from ${encodeURIComponent(name)}&body=${encodeURIComponent(emailBody)}`;
+      setIsSubmitted(true);
+      setFormData({ name: '', email: '', message: '' });
+      setTimeout(() => {
+        setIsSubmitted(false);
+      }, 5000);
+    });
   };
 
   return (
@@ -62,19 +108,10 @@ export default function ContactForm() {
               <span className="text-2xl">✓</span>
               <div>
                 <p className="text-[#FF4D4D] font-semibold text-sm sm:text-base">
-                  Acknowledged!
+                  Message Copied & Email Opening!
                 </p>
                 <p className="text-gray-300 text-xs sm:text-sm mt-1">
-                  Your response will be entertained soon. For quicker response, please reach out on{' '}
-                  <a 
-                    href="https://www.linkedin.com/in/sumaid-ahmed-ab0386388" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-[#FF4D4D] hover:underline font-semibold"
-                  >
-                    LinkedIn
-                  </a>
-                  .
+                  Your message has been copied to clipboard and your email app is opening. Paste it in the compose window to send!
                 </p>
               </div>
             </div>
