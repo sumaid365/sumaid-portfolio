@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Oxanium } from 'next/font/google';
-import localFont from 'next/font/local';
 
 import Navbar from '../components/NavBar';
 import MatrixBackground from '../components/MatrixBox';
@@ -16,11 +15,6 @@ import ContactForm from '../components/ContactForm';
 
 // Fonts
 const oxanium = Oxanium({ subsets: ['latin'], variable: '--font-oxanium', weight: ['200', '400', '700', '800'] });
-
-const pixelFont = localFont({
-  src: '../fonts/PressStart2P-Regular.ttf',
-  variable: '--font-pixel',
-});
 
 // Animations
 const fadeUp = {
@@ -98,7 +92,7 @@ export default function Home() {
       <ScrollProgress />
       <Navbar />
       
-      <div className={`${oxanium.className} ${pixelFont.className} relative z-10`}>
+      <div className={`${oxanium.className} relative z-10`}>
         {/* =================== HERO =================== */}
         <section
           id="home"
