@@ -2,7 +2,29 @@ import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+// Sanitize HTML to prevent injection
+function sanitizeHTML(str) {
+  const map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;',
+  };
+  return str.replace(/[&<>"']/g, (m) => map[m]);
+}
+
 export default async function handler(req, res) {
+  // Add CORS headers
+  res.setHeader('Access-Control-Allow-Origin', process.env.NEXT_PUBLIC_DOMAIN || '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  // Handle OPTIONS request
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   // Only allow POST requests
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' });
@@ -10,24 +32,39 @@ export default async function handler(req, res) {
 
   const { name, email, message } = req.body;
 
-  // Validate inputs
+  // Validate inputs - check for empty/null values
   if (!name || !email || !message) {
     return res.status(400).json({ message: 'Missing required fields' });
   }
 
+  // Trim inputs to prevent abuse
+  const trimmedName = String(name).trim();
+  const trimmedEmail = String(email).trim();
+  const trimmedMessage = String(message).trim();
+
+  // Validate length to prevent abuse
+  if (trimmedName.length > 100 || trimmedMessage.length > 5000) {
+    return res.status(400).json({ message: 'Input too long' });
+  }
+
   // Email validation
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
+  if (!emailRegex.test(trimmedEmail)) {
     return res.status(400).json({ message: 'Invalid email format' });
   }
 
   try {
+    // Sanitize all user inputs to prevent HTML/email injection
+    const sanitizedName = sanitizeHTML(trimmedName);
+    const sanitizedEmail = sanitizeHTML(trimmedEmail);
+    const sanitizedMessage = sanitizeHTML(trimmedMessage);
+
     // Send email using Resend
     const { data, error } = await resend.emails.send({
       from: 'Portfolio Contact <onboarding@resend.dev>',
-      to: ['huntermob183@gmail.com'],
-      subject: `New Portfolio Message from ${name}`,
-      replyTo: email,
+      to: ['sumaidlinkedin@gmail.com'],
+      subject: `New Portfolio Message from ${sanitizedName}`,
+      replyTo: trimmedEmail,
       html: `
         <!DOCTYPE html>
         <html>
@@ -73,6 +110,7 @@ export default async function handler(req, res) {
               .value {
                 color: #ff0000;
                 word-wrap: break-word;
+                white-space: pre-wrap;
               }
               .footer {
                 margin-top: 20px;
@@ -98,17 +136,17 @@ export default async function handler(req, res) {
               
               <div class="field">
                 <div class="label">📝 Name:</div>
-                <div class="value">${name}</div>
+                <div class="value">${sanitizedName}</div>
               </div>
               
               <div class="field">
                 <div class="label">📧 Email:</div>
-                <div class="value">${email}</div>
+                <div class="value">${sanitizedEmail}</div>
               </div>
               
               <div class="field">
                 <div class="label">💬 Message:</div>
-                <div class="value">${message.replace(/\n/g, '<br>')}</div>
+                <div class="value">${sanitizedMessage}</div>
               </div>
               
               <div class="timestamp">
@@ -123,11 +161,11 @@ export default async function handler(req, res) {
         </html>
       `,
       text: `
-        New Portfolio Message from ${name}
+        New Portfolio Message from ${sanitizedName}
         
-        Name: ${name}
-        Email: ${email}
-        Message: ${message}
+        Name: ${sanitizedName}
+        Email: ${sanitizedEmail}
+        Message: ${sanitizedMessage}
         
         Sent at: ${new Date().toLocaleString()}
       `,
