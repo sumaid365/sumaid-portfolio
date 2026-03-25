@@ -49,18 +49,10 @@ export default function Navbar() {
         initial={{ y: -60, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
-        className={`${oxanium.className}
-          fixed top-4 left-0 right-0 z-50
-          flex justify-center
-          w-full
-          transition-all duration-300
-          ${scrolled 
-            ? 'bg-black/80 backdrop-blur-2xl' 
-            : 'bg-black/60 backdrop-blur-xl'
-          }
-        `}
+        className={`${oxanium.className} fixed top-4 left-0 right-0 z-50 flex justify-center w-full px-4 transition-all duration-300`}
       >
-        <div className="flex items-center justify-between w-[95%] max-w-4xl rounded-full px-5 py-2.5 border border-white/15 bg-gradient-to-r from-[#46008B]/20 to-black/40">
+        <div className={`flex items-center justify-between w-[95%] max-w-4xl rounded-full px-5 py-2.5 border border-white/15 transition-all duration-300 bg-gradient-to-r ${scrolled ? 'from-[#46008B]/20 via-black/80 to-black/40 backdrop-blur-2xl' : 'from-[#46008B]/20 via-black/60 to-black/40 backdrop-blur-xl'}`}>
+
           {/* Logo - LEFT */}
           <a
             href="#home"
