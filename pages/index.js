@@ -1,8 +1,10 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Oxanium } from 'next/font/google';
+import localFont from 'next/font/local';
 
 import Navbar from '../components/NavBar';
 import MatrixBackground from '../components/MatrixBox';
@@ -15,6 +17,11 @@ import ContactForm from '../components/ContactForm';
 
 // Fonts
 const oxanium = Oxanium({ subsets: ['latin'], variable: '--font-oxanium', weight: ['200', '400', '700', '800'] });
+
+const pixelFont = localFont({
+  src: '../fonts/PressStart2P-Regular.ttf',
+  variable: '--font-pixel',
+});
 
 // Animations
 const fadeUp = {
@@ -92,7 +99,7 @@ export default function Home() {
       <ScrollProgress />
       <Navbar />
       
-      <div className={`${oxanium.className} relative z-10`}>
+      <div className={`${oxanium.className} ${pixelFont.className} relative z-10`}>
         {/* =================== HERO =================== */}
         <section
           id="home"
@@ -127,14 +134,14 @@ export default function Home() {
 
             <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
               <a
-                href="#projects"
+                href="#skills"
                 className="
                   px-6 py-3 rounded-xl
                   border border-white/30 text-white
                   hover:bg-white/10 transition
                 "
               >
-                View Projects
+                View Skills
               </a>
 
               <a
@@ -387,7 +394,7 @@ export default function Home() {
                 </a>
 
                 <a
-                  href="mailto:huntermob183@gmail.com"
+                  href="mailto:sumaidlinkedin@gmail.com"
                   className="px-6 py-3 rounded-xl border border-white/20 bg-black/40 hover:border-[#FF4D4D]/50 hover:text-[#FF4D4D] transition text-white"
                 >
                   Email
