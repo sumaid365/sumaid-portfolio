@@ -23,6 +23,7 @@ const bootLines = [
   '[    0.123456] random: crng init done',
   '',
   '[    1.234567] EXT4-fs: mounted filesystem with ordered data mode',
+  '[    1.345678] fsck.ext4: Checking filesystem /dev/mapper/sec-root',
   '[    1.456789] fsck.ext4: [✓] Filesystem check passed (0 errors)',
   '[    1.567890] systemd-journal: Flushing journal to disk',
   '',
@@ -32,6 +33,9 @@ const bootLines = [
   '[    2.567890] systemd[1]: Set hostname to <sumaid-secure>',
   '[    2.678901] systemd[1]: Condition check resulted in getty@tty1.service being skipped',
   '',
+  '[    2.789012] systemd[1]: Starting Security Module Manager...',
+  '[    2.890123] systemd[1]: Started SSH Server (OpenSSH_9.3p1)',
+  '[    2.901234] systemd[1]: Started Web Framework Engine (Node.js v20.10.0)',
   '[    3.012345] systemd[1]: Started Matrix Canvas Engine [✓]',
   '[    3.123456] systemd[1]: Started Portfolio Core Service [✓]',
   '[    3.234567] systemd[1]: Started Security Audit Daemon [✓]',
@@ -198,18 +202,18 @@ export default function TerminalIntro({ onComplete }) {
             key="banner"
             initial={{ opacity: 1 }}
             animate={{ opacity: 1 }}
-            className="w-full flex flex-col items-center justify-center min-h-screen px-2 sm:px-4 md:px-8"
+            className="w-full flex flex-col items-center justify-start sm:justify-center min-h-full px-2 sm:px-4 md:px-8 pt-8 sm:pt-0"
           >
             {/* ASCII Banner */}
             <div
-              className="text-red-300 mb-6 sm:mb-8 w-full flex justify-center"
+              className="text-red-300 mb-6 sm:mb-8 w-full flex justify-center overflow-x-auto no-scrollbar"
               style={{ fontFamily: 'monospace', letterSpacing: '0.05em', lineHeight: '1.2' }}
             >
               <div style={{ fontFamily: 'Courier New, monospace', letterSpacing: '-0.02em', lineHeight: '1' }}>
                 {asciBanner.map((line, i) => (
                   <div 
                     key={i} 
-                    className="text-[9px] xs:text-[10px] sm:text-xs md:text-sm lg:text-base whitespace-pre"
+                    className="text-[8px] xs:text-[10px] sm:text-xs md:text-sm lg:text-base whitespace-pre"
                   >
                     {line}
                   </div>
@@ -233,6 +237,9 @@ export default function TerminalIntro({ onComplete }) {
               >
                 <p>Press <span className="text-yellow-400 font-bold">ENTER</span> to continue</p>
                 <p className="text-gray-500 text-[9px] xs:text-xs">or wait 6 seconds...</p>
+                <p className="text-gray-400 text-[9px] xs:text-[10px] block sm:hidden">
+                  For the best experience, use a laptop or desktop.
+                </p>
               </motion.div>
 
               <motion.div
