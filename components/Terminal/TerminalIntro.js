@@ -16,11 +16,10 @@ const bootLines = [
   '════════════════════════════════════════════',
   '',
   '[    0.000000] Linux version 6.1.8-x64 (sumaid@secure)',
+  '[    0.001245] Memory: 16384MB available (12288KB kernel code, 2048KB rodata, 4096KB init)',
   '[    0.003421] CPU: Intel Core i9-14900K @ 6.0GHz x16 cores',
   '[    0.005634] Last level iTLB entries: 4KB 0, 2MB 0, 4MB 0',
-  '[    0.123456] random: crng init done',
   '',
-  '[    1.234567] EXT4-fs: mounted filesystem with ordered data mode',
   '[    1.345678] fsck.ext4: Checking filesystem /dev/mapper/sec-root',
   '[    1.456789] fsck.ext4: [✓] Filesystem check passed (0 errors)',
   '[    1.567890] systemd-journal: Flushing journal to disk',
@@ -196,18 +195,18 @@ export default function TerminalIntro({ onComplete }) {
             key="banner"
             initial={{ opacity: 1 }}
             animate={{ opacity: 1 }}
-            className="w-full flex flex-col items-center justify-start sm:justify-center min-h-full px-2 sm:px-4 md:px-8 pt-8 sm:pt-0"
+            className="w-full flex flex-col items-center justify-center min-h-screen px-2 sm:px-4 md:px-8"
           >
             {/* ASCII Banner */}
             <div
-              className="text-red-300 mb-6 sm:mb-8 w-full flex justify-center overflow-x-auto no-scrollbar"
+              className="text-red-300 mb-6 sm:mb-8 w-full flex justify-center"
               style={{ fontFamily: 'monospace', letterSpacing: '0.05em', lineHeight: '1.2' }}
             >
               <div style={{ fontFamily: 'Courier New, monospace', letterSpacing: '-0.02em', lineHeight: '1' }}>
                 {asciBanner.map((line, i) => (
                   <div 
                     key={i} 
-                    className="text-[8px] xs:text-[10px] sm:text-xs md:text-sm lg:text-base whitespace-pre"
+                    className="text-[9px] xs:text-[10px] sm:text-xs md:text-sm lg:text-base whitespace-pre"
                   >
                     {line}
                   </div>
