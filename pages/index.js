@@ -435,7 +435,7 @@ export default function Home() {
                 </a>
                 <span className="text-gray-600 hidden sm:inline">•</span>
                 <a 
-                  href="mailto:huntermob183@gmail.com"
+                  href="mailto:sumaidlinkedin@gmail.com"
                   className="text-gray-400 hover:text-[#FF4D4D] transition text-xs sm:text-sm"
                 >
                   Email
