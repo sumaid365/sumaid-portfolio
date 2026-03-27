@@ -93,7 +93,7 @@ export default function ContactForm() {
       initial="hidden"
       whileInView="visible"
       viewport={{ once: false }}
-      className="space-y-5 max-w-2xl mx-auto"
+      className="space-y-5 max-w-2xl mx-auto w-full"
     >
       {/* Acknowledgment Message */}
       <AnimatePresence>
@@ -189,7 +189,7 @@ export default function ContactForm() {
         variants={fadeUp}
         whileHover={{ scale: isSubmitted ? 1 : 1.02 }}
         whileTap={{ scale: isSubmitted ? 1 : 0.98 }}
-        className="w-full px-6 py-3 rounded-lg
+        className="w-full px-6 py-3 rounded-lg flex items-center justify-center text-center
           bg-gradient-to-r from-[#FF4D4D] to-[#46008B] text-white font-bold uppercase tracking-wide
           hover:shadow-[0_0_30px_rgba(255,77,77,0.4)] transition-all
           relative overflow-hidden group disabled:opacity-50 disabled:cursor-not-allowed"
