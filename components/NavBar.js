@@ -25,6 +25,20 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  const handleNavClick = (e, href) => {
+    if (!href?.startsWith('#')) return;
+
+    e.preventDefault();
+    const target = document.querySelector(href);
+    if (!target) return;
+
+    const navOffset = 96;
+    const top = target.getBoundingClientRect().top + window.scrollY - navOffset;
+    window.scrollTo({ top, behavior: 'smooth' });
+    setActive(href.replace('#', ''));
+    setMobileOpen(false);
+  };
+
   useEffect(() => {
     const sections = document.querySelectorAll('section[id]');
 
@@ -56,6 +70,7 @@ export default function Navbar() {
           {/* Logo - LEFT */}
           <a
             href="#home"
+            onClick={(e) => handleNavClick(e, '#home')}
             className="flex items-center gap-1.5 font-black text-base sm:text-lg text-[#FF4D4D] hover:text-[#46008B] transition uppercase tracking-wider group flex-shrink-0"
           >
             <span className="text-lg sm:text-xl group-hover:animate-pulse">⌘</span>
@@ -70,6 +85,7 @@ export default function Navbar() {
                 <a
                   key={item.name}
                   href={item.href}
+                  onClick={(e) => handleNavClick(e, item.href)}
                   className={`relative transition-all duration-300 font-bold text-xs lg:text-sm uppercase tracking-wide
                     ${isActive 
                       ? 'text-[#FF4D4D]' 
@@ -152,7 +168,7 @@ export default function Navbar() {
               <motion.a
                 key={item.name}
                 href={item.href}
-                onClick={() => setMobileOpen(false)}
+                onClick={(e) => handleNavClick(e, item.href)}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: idx * 0.05 }}
