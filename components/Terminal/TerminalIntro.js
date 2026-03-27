@@ -5,8 +5,6 @@ import { Oxanium } from 'next/font/google';
 
 const oxanium = Oxanium({ subsets: ['latin'], weight: ['200', '400', '700', '800'] });
 
-let visibleBootLines = [];
-
 const bootLines = [
   'BIOS v2.4.1 - Initializing boot sequence...',
   '[BIOS] POST (Power-On Self Test): PASSED',
@@ -18,13 +16,13 @@ const bootLines = [
   '════════════════════════════════════════════',
   '',
   '[    0.000000] Linux version 6.1.8-x64 (sumaid@secure)',
+  '[    0.000000] Command line: BOOT_IMAGE=/boot/vmlinuz-secure root=/dev/mapper/sec-root',
   '[    0.001245] Memory: 16384MB available (12288KB kernel code, 2048KB rodata, 4096KB init)',
   '[    0.003421] CPU: Intel Core i9-14900K @ 6.0GHz x16 cores',
   '[    0.005634] Last level iTLB entries: 4KB 0, 2MB 0, 4MB 0',
   '[    0.123456] random: crng init done',
   '',
   '[    1.234567] EXT4-fs: mounted filesystem with ordered data mode',
-  '[    1.345678] fsck.ext4: Checking filesystem /dev/mapper/sec-root',
   '[    1.456789] fsck.ext4: [✓] Filesystem check passed (0 errors)',
   '[    1.567890] systemd-journal: Flushing journal to disk',
   '',
@@ -85,6 +83,13 @@ export default function TerminalIntro({ onComplete }) {
   const [phase, setPhase] = useState('booting'); // booting, banner
   const [visibleBootLines, setVisibleBootLines] = useState([]);
   const containerRef = useRef(null);
+  const hasCompletedRef = useRef(false);
+
+  const completeIntro = () => {
+    if (hasCompletedRef.current) return;
+    hasCompletedRef.current = true;
+    onComplete();
+  };
 
   // Boot sequence phase
   useEffect(() => {
@@ -105,17 +110,26 @@ export default function TerminalIntro({ onComplete }) {
     return () => clearInterval(interval);
   }, [phase]);
 
-  // Auto-scroll to bottom
+  // Keep boot logs pinned to bottom; reset to top when switching to banner.
   useEffect(() => {
-    if (containerRef.current) {
-      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    if (!containerRef.current) return;
+
+    if (phase === 'booting') {
+      requestAnimationFrame(() => {
+        if (containerRef.current) {
+          containerRef.current.scrollTop = containerRef.current.scrollHeight;
+        }
+      });
+      return;
     }
+
+    containerRef.current.scrollTop = 0;
   }, [visibleBootLines, phase]);
 
   const handleKeyPress = (e) => {
     if (phase === 'banner') {
       if (e.key === 'Enter' || e.key === 'Escape') {
-        onComplete();
+        completeIntro();
       }
     }
   };
@@ -129,11 +143,11 @@ export default function TerminalIntro({ onComplete }) {
   useEffect(() => {
     if (phase === 'banner') {
       const timer = setTimeout(() => {
-        onComplete();
+        completeIntro();
       }, 6000);
       return () => clearTimeout(timer);
     }
-  }, [phase, onComplete]);
+  }, [phase]);
 
   const glitchVariants = {
     animate: {
@@ -149,7 +163,7 @@ export default function TerminalIntro({ onComplete }) {
   return (
     <div
       ref={containerRef}
-      className={`${oxanium.className} bg-black text-red-400 text-xs sm:text-sm p-4 sm:p-8 h-screen w-full flex flex-col font-mono overflow-y-auto`}
+      className={`${oxanium.className} bg-black text-red-400 text-xs sm:text-sm p-4 sm:p-8 h-[100dvh] w-full flex flex-col font-mono overflow-y-auto`}
       style={{
         backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(255, 0, 0, 0.03) 0%, transparent 100%)',
       }}
