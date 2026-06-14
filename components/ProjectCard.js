@@ -19,6 +19,7 @@ const fadeUp = {
 export default function ProjectCard({ project, index }) {
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const projectColor = project.color || '#FF4D4D';
 
   useEffect(() => {
     setMounted(true);
@@ -47,12 +48,27 @@ export default function ProjectCard({ project, index }) {
         whileHover={{ y: -8 }}
         onClick={() => setIsOpen(true)}
         className="h-full rounded-2xl cursor-pointer transition-all group relative overflow-hidden
-          bg-black/50 border border-white/10 hover:border-[#FF4D4D]/60
-          shadow-lg hover:shadow-[0_0_30px_rgba(255,77,77,0.25)]"
+          bg-black/50 border border-white/10
+          shadow-lg"
+        style={{
+          borderColor: `${projectColor}40`,
+          boxShadow: `0 0 30px ${projectColor}40`,
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.borderColor = `${projectColor}a0`;
+          e.currentTarget.style.boxShadow = `0 0 30px ${projectColor}40`;
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.borderColor = `${projectColor}40`;
+          e.currentTarget.style.boxShadow = `0 0 30px ${projectColor}40`;
+        }}
       >
         {/* Animated background gradient */}
         <motion.div
-          className="absolute inset-0 bg-gradient-to-br from-[#FF4D4D]/15 via-transparent to-[#FF4D4D]/10 opacity-0 group-hover:opacity-100"
+          className="absolute inset-0 opacity-0 group-hover:opacity-100"
+          style={{
+            background: `linear-gradient(to bottom right, ${projectColor}26, transparent, ${projectColor}1a)`,
+          }}
           initial={{ opacity: 0 }}
           whileHover={{ opacity: 1 }}
           transition={{ duration: 0.3 }}
@@ -60,25 +76,31 @@ export default function ProjectCard({ project, index }) {
 
         {/* Top accent line */}
         <motion.div
-          className="absolute top-0 left-0 h-1 bg-gradient-to-r from-[#FF4D4D] via-[#FF4D4D] to-transparent opacity-0 group-hover:opacity-100"
+          className="absolute top-0 left-0 h-1 opacity-0 group-hover:opacity-100"
           initial={{ scaleX: 0 }}
           whileHover={{ scaleX: 1 }}
           transition={{ duration: 0.5 }}
-          style={{ originX: 0 }}
+          style={{
+            background: `linear-gradient(to right, ${projectColor}, ${projectColor}, transparent)`,
+            originX: 0,
+          }}
         />
 
         <div className="relative z-10 p-7 h-full flex flex-col">
           {/* Header */}
-          <div className="mb-4">
-            <h3 className="text-[#FF4D4D] font-extrabold text-lg sm:text-xl leading-tight mb-3 tracking-tight">
+          <div className="mb-4 text-center">
+            <h3 className="font-extrabold text-lg sm:text-xl leading-tight mb-3 tracking-tight" style={{ color: projectColor }}>
               {project.title}
             </h3>
             <motion.div
-              className="h-0.5 w-12 bg-gradient-to-r from-[#FF4D4D] to-[#FF4D4D]"
+              className="h-0.5 w-12 mx-auto"
               initial={{ scaleX: 0 }}
               whileHover={{ scaleX: 1 }}
               transition={{ duration: 0.4 }}
-              style={{ originX: 0 }}
+              style={{
+                background: `linear-gradient(to right, ${projectColor}, ${projectColor})`,
+                originX: 0.5,
+              }}
             />
           </div>
 
@@ -93,8 +115,12 @@ export default function ProjectCard({ project, index }) {
               <motion.span
                 key={idx}
                 whileHover={{ scale: 1.05 }}
-                className="text-xs px-3 py-1.5 rounded-full bg-[#FF4D4D]/15 text-[#FF4D4D] border border-[#FF4D4D]/40
-                  hover:bg-[#FF4D4D]/25 hover:border-[#FF4D4D]/60 transition font-semibold uppercase tracking-wider"
+                className="text-xs px-3 py-1.5 rounded-full border transition font-semibold uppercase tracking-wider"
+                style={{
+                  backgroundColor: `${projectColor}26`,
+                  color: projectColor,
+                  borderColor: `${projectColor}66`,
+                }}
               >
                 {tag}
               </motion.span>
@@ -111,14 +137,21 @@ export default function ProjectCard({ project, index }) {
             onClick={() => setIsOpen(true)}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="w-full px-4 py-3 rounded-lg
-              bg-gradient-to-r from-[#FF4D4D]/30 to-[#FF4D4D]/30
-              border border-[#FF4D4D]/60 hover:border-[#FF4D4D]/80
-              text-[#FF4D4D] hover:text-[#FF4D4D]
-              font-bold text-sm uppercase tracking-wide
-              transition-all hover:bg-gradient-to-r hover:from-[#FF4D4D]/40 hover:to-[#FF4D4D]/40
-              flex items-center justify-center gap-2
-              group/btn"
+            className="w-full px-4 py-3 rounded-lg border font-bold text-sm uppercase tracking-wide
+              transition-all flex items-center justify-center gap-2 group/btn"
+            style={{
+              backgroundColor: `${projectColor}4d`,
+              borderColor: `${projectColor}99`,
+              color: projectColor,
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = `${projectColor}66`;
+              e.currentTarget.style.borderColor = `${projectColor}cc`;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = `${projectColor}4d`;
+              e.currentTarget.style.borderColor = `${projectColor}99`;
+            }}
           >
             <span>View Details</span>
             <motion.span
@@ -155,40 +188,49 @@ export default function ProjectCard({ project, index }) {
                     exit={{ opacity: 0, scale: 0.9 }}
                     transition={{ type: 'spring', damping: 25, stiffness: 300 }}
                     className="w-full max-w-2xl max-h-[85vh]
-                      bg-black/95 backdrop-blur-xl
-                      border border-[#FF4D4D]/50 rounded-3xl
-                      shadow-2xl shadow-[#FF4D4D]/15
+                      bg-black/95 backdrop-blur-xl rounded-3xl
                       overflow-hidden flex flex-col"
                     onClick={(e) => e.stopPropagation()}
+                    style={{
+                      border: `1px solid ${projectColor}80`,
+                      boxShadow: `0 25px 50px -12px ${projectColor}26`,
+                    }}
                   >
                     {/* Modal Header - Fixed at top */}
                     <div className="relative flex-shrink-0">
                       <motion.div
-                        className="h-1 w-full bg-gradient-to-r from-[#FF4D4D] via-[#FF4D4D] to-[#FF4D4D]"
+                        className="h-1 w-full"
                         initial={{ scaleX: 0 }}
                         animate={{ scaleX: 1 }}
                         transition={{ duration: 0.5, delay: 0.1 }}
-                        style={{ originX: 0 }}
+                        style={{
+                          background: `linear-gradient(to right, ${projectColor}, ${projectColor}, ${projectColor})`,
+                          originX: 0,
+                        }}
                       />
 
                       <div className="p-6 sm:p-8 pb-4">
                         <div className="flex items-start justify-between gap-4">
-                          <h2 className="text-2xl sm:text-3xl font-extrabold text-[#FF4D4D] leading-tight">
+                          <h2 className="text-2xl sm:text-3xl font-extrabold leading-tight" style={{ color: projectColor }}>
                             {project.title}
                           </h2>
                           <button
                             onClick={() => setIsOpen(false)}
-                            className="flex-shrink-0 text-gray-400 hover:text-[#FF4D4D] transition text-2xl leading-none"
+                            className="flex-shrink-0 text-gray-400 transition text-2xl leading-none"
+                            style={{ color: projectColor }}
                           >
                             ✕
                           </button>
                         </div>
                         <motion.div
-                          className="h-0.5 w-16 bg-[#FF4D4D] rounded-full mt-3"
+                          className="h-0.5 w-16 rounded-full mt-3"
                           initial={{ scaleX: 0 }}
                           animate={{ scaleX: 1 }}
                           transition={{ duration: 0.5, delay: 0.2 }}
-                          style={{ originX: 0 }}
+                          style={{
+                            background: projectColor,
+                            originX: 0,
+                          }}
                         />
                       </div>
                     </div>
@@ -205,13 +247,13 @@ export default function ProjectCard({ project, index }) {
                       {/* Features */}
                       {project.features && (
                         <div>
-                          <h3 className="text-lg sm:text-xl font-bold text-[#FF4D4D] mb-3 flex items-center gap-2 uppercase tracking-wide">
-                            <span className="text-[#FF4D4D] text-2xl">▪</span> Features
+                          <h3 className="text-lg sm:text-xl font-bold mb-3 flex items-center gap-2 uppercase tracking-wide" style={{ color: projectColor }}>
+                            <span className="text-2xl">▪</span> Features
                           </h3>
                           <ul className="space-y-2 pl-5">
                             {project.features.map((feature, idx) => (
                               <li key={idx} className="text-gray-300 text-sm sm:text-base flex items-start gap-2">
-                                <span className="text-[#FF4D4D] font-bold text-lg leading-none mt-0.5">
+                                <span className="font-bold text-lg leading-none mt-0.5" style={{ color: projectColor }}>
                                   ›
                                 </span>
                                 <span>{feature}</span>
@@ -230,7 +272,12 @@ export default function ProjectCard({ project, index }) {
                           {project.tags.map((tag, idx) => (
                             <span
                               key={idx}
-                              className="text-xs px-3 py-1.5 rounded-full bg-[#FF4D4D]/20 text-[#FF4D4D] border border-[#FF4D4D]/50"
+                              className="text-xs px-3 py-1.5 rounded-full border"
+                              style={{
+                                backgroundColor: `${projectColor}33`,
+                                color: projectColor,
+                                borderColor: `${projectColor}80`,
+                              }}
                             >
                               {tag}
                             </span>
@@ -250,11 +297,20 @@ export default function ProjectCard({ project, index }) {
                                 href={project.links.github}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex-1 px-4 py-2.5 rounded-lg
-                                  bg-[#FF4D4D]/20 hover:bg-[#FF4D4D]/30
-                                  border border-[#FF4D4D]/50 hover:border-[#FF4D4D]/70
-                                  text-[#FF4D4D] font-semibold text-sm
-                                  transition-all text-center"
+                                className="flex-1 px-4 py-2.5 rounded-lg font-semibold text-sm transition-all text-center border"
+                                style={{
+                                  backgroundColor: `${projectColor}33`,
+                                  borderColor: `${projectColor}80`,
+                                  color: projectColor,
+                                }}
+                                onMouseEnter={(e) => {
+                                  e.currentTarget.style.backgroundColor = `${projectColor}4d`;
+                                  e.currentTarget.style.borderColor = `${projectColor}b3`;
+                                }}
+                                onMouseLeave={(e) => {
+                                  e.currentTarget.style.backgroundColor = `${projectColor}33`;
+                                  e.currentTarget.style.borderColor = `${projectColor}80`;
+                                }}
                               >
                                 → GitHub Repository
                               </a>
@@ -264,11 +320,20 @@ export default function ProjectCard({ project, index }) {
                                 href={project.links.live}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex-1 px-4 py-2.5 rounded-lg
-                                  bg-[#FF4D4D]/20 hover:bg-[#FF4D4D]/30
-                                  border border-[#FF4D4D]/50 hover:border-[#FF4D4D]/70
-                                  text-[#FF4D4D] font-semibold text-sm
-                                  transition-all text-center"
+                                className="flex-1 px-4 py-2.5 rounded-lg font-semibold text-sm transition-all text-center border"
+                                style={{
+                                  backgroundColor: `${projectColor}33`,
+                                  borderColor: `${projectColor}80`,
+                                  color: projectColor,
+                                }}
+                                onMouseEnter={(e) => {
+                                  e.currentTarget.style.backgroundColor = `${projectColor}4d`;
+                                  e.currentTarget.style.borderColor = `${projectColor}b3`;
+                                }}
+                                onMouseLeave={(e) => {
+                                  e.currentTarget.style.backgroundColor = `${projectColor}33`;
+                                  e.currentTarget.style.borderColor = `${projectColor}80`;
+                                }}
                               >
                                 → Live Demo
                               </a>
