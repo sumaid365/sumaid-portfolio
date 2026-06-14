@@ -11,13 +11,13 @@ const navItems = [
   { name: 'About', href: '#about' },
   { name: 'Projects', href: '#projects' },
   { name: 'Skills', href: '#skills' },
-  { name: 'Certs', href: '#certifications' },
+  { name: 'Certifications', href: '#certifications' },
   { name: 'Contact', href: '#contact' },
 ];
 
 const socialLinks = [
-  { name: 'GitHub', href: 'https://github.com/CheeseBallz' },
-  { name: 'LinkedIn', href: 'https://www.linkedin.com/in/sumaid-ahmed-ab0386388' },
+  { name: 'GitHub', href: 'https://github.com/CheeseBallz', color: 'red' },
+  { name: 'LinkedIn', href: 'www.linkedin.com/in/sumaid-ahmed-ab0386388', color: 'red' },
 ];
 
 export default function Navbar() {
@@ -63,22 +63,30 @@ export default function Navbar() {
         initial={{ y: -60, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
-        className={`${oxanium.className} fixed top-4 left-0 right-0 z-50 flex justify-center w-full px-4 transition-all duration-300`}
+        className={`${oxanium.className}
+          fixed top-4 left-1/2 -translate-x-1/2 z-50
+          w-[95%] max-w-6xl
+          rounded-full px-6 sm:px-12 py-4 sm:py-5
+          transition-all duration-300
+          ${scrolled 
+            ? 'bg-black/60 backdrop-blur-2xl border border-white/30 shadow-[0_0_50px_rgba(255,0,0,0.2)]' 
+            : 'bg-gradient-to-br from-white/10 via-white/5 to-white/0 backdrop-blur-xl border border-white/20 shadow-[0_0_40px_rgba(255,0,0,0.15)]'
+          }
+        `}
       >
-        <div className={`flex items-center justify-between w-[95%] max-w-4xl rounded-full px-5 py-2.5 border border-white/15 transition-all duration-300 bg-gradient-to-r ${scrolled ? 'from-[#46008B]/20 via-black/80 to-black/40 backdrop-blur-2xl' : 'from-[#46008B]/20 via-black/60 to-black/40 backdrop-blur-xl'}`}>
-
+        <div className="flex items-center justify-between w-full">
           {/* Logo - LEFT */}
           <a
             href="#home"
             onClick={(e) => handleNavClick(e, '#home')}
-            className="flex items-center gap-1.5 font-black text-base sm:text-lg text-[#FF4D4D] hover:text-[#46008B] transition uppercase tracking-wider group flex-shrink-0"
+            className="flex items-center gap-2 font-black text-lg sm:text-xl text-red-400 hover:text-red-300 transition uppercase tracking-wider group"
           >
-            <span className="text-lg sm:text-xl group-hover:animate-pulse">⌘</span>
-            <span>SUMAID</span>
+            <span className="text-xl group-hover:animate-pulse">⌘</span>
+            SUMAID
           </a>
 
           {/* Desktop Navigation - CENTER */}
-          <div className="hidden md:flex items-center gap-3 lg:gap-4">
+          <div className="hidden md:flex gap-6 sm:gap-8 items-center">
             {navItems.map((item) => {
               const isActive = active === item.href.replace('#', '');
               return (
@@ -86,30 +94,39 @@ export default function Navbar() {
                   key={item.name}
                   href={item.href}
                   onClick={(e) => handleNavClick(e, item.href)}
-                  className={`relative transition-all duration-300 font-bold text-xs lg:text-sm uppercase tracking-wide
+                  className={`relative group transition-all duration-300 font-bold text-xs sm:text-sm uppercase tracking-wide
                     ${isActive 
-                      ? 'text-[#FF4D4D]' 
-                      : 'text-gray-400 hover:text-[#46008B]'
+                      ? 'text-red-400' 
+                      : 'text-gray-300 hover:text-red-300'
                     }
                   `}
                 >
-                  <span className="px-2 py-1.5 block">
-                    {item.name}
-                  </span>
+                  {/* Pill Background */}
                   {isActive && (
                     <motion.span
-                      layoutId="activeUnderline"
-                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#FF4D4D] to-[#46008B] rounded-full"
+                      layoutId="activePill"
+                      className="absolute inset-0 rounded-full bg-red-400/20 border border-red-400/40 -z-10"
                       transition={{ type: 'spring', damping: 20, stiffness: 150 }}
                     />
                   )}
+                  
+                  <span className="relative px-3 py-2 block">
+                    {item.name}
+                    {isActive && (
+                      <motion.span
+                        className="absolute inset-0 rounded-full bg-red-400/10 blur-lg -z-20"
+                        animate={{ opacity: [0.5, 1, 0.5] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      />
+                    )}
+                  </span>
                 </a>
               );
             })}
           </div>
 
           {/* Social & CTA Icons - RIGHT */}
-          <div className="hidden md:flex gap-2 items-center flex-shrink-0">
+          <div className="hidden md:flex gap-3 items-center">
             {socialLinks.map((social) => (
               <motion.a
                 key={social.name}
@@ -118,8 +135,9 @@ export default function Navbar() {
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-2 py-1.5 rounded-lg font-semibold text-[10px] uppercase tracking-wide transition-all whitespace-nowrap
-                  text-[#FF4D4D] hover:text-[#46008B] hover:bg-white/5"
+                className="px-3 py-2 rounded-lg font-semibold text-xs uppercase tracking-wide transition-all
+                  bg-red-400/25 hover:bg-red-400/35 border border-red-400/60 hover:border-red-400/80 text-red-200 hover:text-red-100
+                "
               >
                 {social.name}
               </motion.a>
@@ -127,13 +145,13 @@ export default function Navbar() {
             
             {/* Resume Button */}
             <motion.a
-              href="/Sumaid Resume.pdf"
+              href="/Sumaid Ahmed - Resume.pdf"
               download="Sumaid-Ahmed-Resume.pdf"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="ml-1 px-3 py-1.5 rounded-lg bg-gradient-to-r from-[#FF4D4D] to-[#46008B] 
-                text-white font-bold text-[10px] uppercase tracking-wide whitespace-nowrap
-                hover:shadow-[0_0_20px_rgba(70,0,139,0.4)] transition-all"
+              className="ml-2 px-4 py-2 rounded-lg bg-gradient-to-r from-red-400 to-red-500
+                text-black font-bold text-xs uppercase tracking-wide
+                hover:shadow-[0_0_20px_rgba(255,0,0,0.4)] transition-all"
             >
               Resume
             </motion.a>
@@ -142,12 +160,12 @@ export default function Navbar() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden flex flex-col gap-1.5 group flex-shrink-0"
+            className="md:hidden flex flex-col gap-1.5 group"
             aria-label="Toggle mobile menu"
           >
-            <span className={`w-5 h-0.5 bg-[#FF4D4D] transition-all duration-300 ${mobileOpen ? 'rotate-45 translate-y-2' : ''}`} />
-            <span className={`w-5 h-0.5 bg-[#FF4D4D] transition-all duration-300 ${mobileOpen ? 'opacity-0' : ''}`} />
-            <span className={`w-5 h-0.5 bg-[#FF4D4D] transition-all duration-300 ${mobileOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+            <span className={`w-6 h-0.5 bg-red-400 transition-all duration-300 ${mobileOpen ? 'rotate-45 translate-y-2' : ''}`} />
+            <span className={`w-6 h-0.5 bg-red-400 transition-all duration-300 ${mobileOpen ? 'opacity-0' : ''}`} />
+            <span className={`w-6 h-0.5 bg-red-400 transition-all duration-300 ${mobileOpen ? '-rotate-45 -translate-y-2' : ''}`} />
           </button>
         </div>
       </motion.nav>
@@ -158,9 +176,9 @@ export default function Navbar() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          className={`${oxanium.className} fixed top-16 left-4 right-4 z-40 md:hidden
-            rounded-2xl bg-black/95 backdrop-blur-xl border border-[#46008B]/30
-            p-6 space-y-4 max-h-[80vh] overflow-y-auto`}
+          className={`${oxanium.className} fixed top-20 left-4 right-4 z-40 md:hidden
+            rounded-2xl bg-black/80 backdrop-blur-xl border border-red-400/30
+            p-6 space-y-4`}
         >
           {navItems.map((item, idx) => {
             const isActive = active === item.href.replace('#', '');
@@ -172,10 +190,10 @@ export default function Navbar() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: idx * 0.05 }}
-                className={`block px-4 py-3 rounded-lg transition-all font-bold uppercase text-sm tracking-wide text-center
+                className={`block px-4 py-3 rounded-lg transition-all font-bold uppercase text-sm tracking-wide
                   ${isActive
-                    ? 'bg-gradient-to-r from-[#FF4D4D]/20 to-[#46008B]/20 border border-[#FF4D4D]/40 text-[#FF4D4D]'
-                    : 'text-gray-300 hover:text-[#46008B] hover:bg-white/5'
+                    ? 'bg-red-400/20 border border-red-400/40 text-red-400'
+                    : 'text-gray-300 hover:text-red-400 hover:bg-white/5'
                   }
                 `}
               >
@@ -184,14 +202,15 @@ export default function Navbar() {
             );
           })}
 
-          <div className="pt-4 border-t border-white/10 flex flex-col gap-3">
+          <div className="pt-4 border-t border-white/10 flex gap-3">
             {socialLinks.map((social) => (
               <a
                 key={social.name}
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full px-3 py-2 rounded-lg bg-white/5 hover:bg-gradient-to-r hover:from-[#FF4D4D]/20 hover:to-[#46008B]/20 transition text-center font-bold text-xs uppercase text-[#FF4D4D] hover:text-[#46008B]"
+                className="flex-1 px-3 py-2 rounded-lg bg-white/5 hover:bg-red-400/20 text-red-400 
+                  hover:text-red-300 transition text-center font-bold text-xs uppercase"
               >
                 {social.name}
               </a>
@@ -199,13 +218,13 @@ export default function Navbar() {
           </div>
 
           <motion.a
-            href="/Sumaid Resume.pdf"
+            href="/Sumaid Ahmed - Resume.pdf"
             download="Sumaid-Ahmed-Resume.pdf"
             onClick={() => setMobileOpen(false)}
             whileTap={{ scale: 0.95 }}
-            className="block w-full px-4 py-3 rounded-lg bg-gradient-to-r from-[#FF4D4D] to-[#46008B] 
-              text-white font-bold text-xs uppercase tracking-wide text-center
-              hover:shadow-[0_0_20px_rgba(70,0,139,0.4)] transition-all"
+            className="block w-full px-4 py-3 rounded-lg bg-gradient-to-r from-red-400 to-red-500
+              text-black font-bold text-xs uppercase tracking-wide text-center
+              hover:shadow-[0_0_20px_rgba(255,0,0,0.4)] transition-all"
           >
             Resume
           </motion.a>
