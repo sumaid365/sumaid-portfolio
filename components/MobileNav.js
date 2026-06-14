@@ -145,11 +145,11 @@ export default function Navbar() {
             
             {/* Resume Button */}
             <motion.a
-              href="/Sumaid Resume.pdf"
+              href="/Sumaid Ahmed - Resume.pdf"
               download="Sumaid-Ahmed-Resume.pdf"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="ml-2 px-4 py-2 rounded-lg bg-gradient-to-r from-red-400 to-red-500 
+              className="ml-2 px-4 py-2 rounded-lg bg-gradient-to-r from-red-400 to-red-500
                 text-black font-bold text-xs uppercase tracking-wide
                 hover:shadow-[0_0_20px_rgba(255,0,0,0.4)] transition-all"
             >
@@ -218,11 +218,11 @@ export default function Navbar() {
           </div>
 
           <motion.a
-            href="/Sumaid Resume.pdf"
+            href="/Sumaid Ahmed - Resume.pdf"
             download="Sumaid-Ahmed-Resume.pdf"
             onClick={() => setMobileOpen(false)}
             whileTap={{ scale: 0.95 }}
-            className="block w-full px-4 py-3 rounded-lg bg-gradient-to-r from-red-400 to-red-500 
+            className="block w-full px-4 py-3 rounded-lg bg-gradient-to-r from-red-400 to-red-500
               text-black font-bold text-xs uppercase tracking-wide text-center
               hover:shadow-[0_0_20px_rgba(255,0,0,0.4)] transition-all"
           >
