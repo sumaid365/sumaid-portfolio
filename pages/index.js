@@ -134,9 +134,6 @@ export default function Home() {
               text-center
             "
           >
-            <p className="text-xs tracking-[0.3em] text-white/60 mb-4 uppercase">
-              Ethical Hacker
-            </p>
 
             <h1 className="text-3xl sm:text-6xl font-bold text-[#FF4D4D] mb-4">
               Sumaid Ahmed
