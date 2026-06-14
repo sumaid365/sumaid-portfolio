@@ -35,6 +35,16 @@ const certifications = [
     color: '#F2D479',
     borderColor: '#F2D479',
   },
+  {
+    title: 'Cyber Threat Intelligence 101',
+    issuer: 'arcX',
+    date: '13/06/2026',
+    link: 'https://arcx.io/verify-certificate?id=fd6f828d05c79de415135ec4f4cc25d834243165&k=b1d6d0cc87f34e469c13660f80e76554',
+    type: 'certification',
+    icon: '🛡️',
+    color: '#E91E63',
+    borderColor: '#E91E63',
+  },
 ];
 
 const courses = [];
@@ -54,14 +64,14 @@ export default function Certifications() {
           viewport={{ once: false }}
           className="text-center mb-20"
         >
-          <h2 className="text-3xl sm:text-5xl font-black bg-gradient-to-r from-[#8CC7C4] to-[#F2D479] bg-clip-text text-transparent mb-3 sm:mb-4 uppercase tracking-tight">
+          <h2 className="text-3xl sm:text-5xl font-black bg-gradient-to-r from-[#E91E63] via-[#8CC7C4] to-[#F2D479] bg-clip-text text-transparent mb-3 sm:mb-4 uppercase tracking-tight">
             Certifications & Courses
           </h2>
           <p className="text-gray-400 text-xs sm:text-base max-w-2xl mx-auto mb-6 sm:mb-8 px-2">
             Professional credentials and ongoing learning in cybersecurity and networking
           </p>
           <motion.div
-            className="h-1 w-32 bg-gradient-to-r from-[#8CC7C4] via-[#F2D479] to-[#8CC7C4] mx-auto rounded-full"
+            className="h-1 w-32 bg-gradient-to-r from-[#E91E63] via-[#8CC7C4] via-[#F2D479] to-[#E91E63] mx-auto rounded-full"
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
             transition={{ duration: 0.6, delay: 0.1 }}
