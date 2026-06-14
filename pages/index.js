@@ -52,8 +52,28 @@ const projects = [
       'Time-based detection to avoid false triggers',
     ],
     tags: ['Arduino Nano', 'Embedded', 'IR Sensor (HW-201)', 'Relay Module'],
+    color: '#00E5FF',
     links: {
       github: 'https://github.com/CheeseBallz/anti-aleeping-alarm',
+    },
+  },
+  {
+    title: 'Smart Parking System',
+    description: 'Hardware-based smart parking system using Digital Logic Design, sensors, and Arduino Nano',
+    fullDescription:
+      'Developed a Smart Parking Simulator using Arduino Nano, 7404 NOT Gate IC, and 7408 AND Gate IC to automate parking management through hardware-based combinational logic. The system uses IR sensors to monitor parking slot occupancy, an ultrasonic sensor to detect vehicles at the entrance, and a servo motor to control the parking barrier automatically. The parking FULL condition is implemented entirely using hardware logic gates instead of software computation, demonstrating practical Digital Logic Design concepts in a real-world embedded system.',
+    features: [
+      'Real-time parking slot occupancy detection using IR sensors',
+      'Hardware-based FULL parking logic using 7404 and 7408 ICs',
+      'Automatic servo-controlled parking barrier system',
+      'Ultrasonic vehicle detection at entry gate',
+      'Buzzer alert when parking is full and a vehicle approaches',
+      'Embedded system integration using Arduino Nano',
+    ],
+    tags: ['Arduino', 'Embedded Systems', 'Digital Logic Design', 'IoT', 'Automation', 'Electronics', 'C++', 'Smart Parking'],
+    color: '#8B5CF6',
+    links: {
+      github: 'https://github.com/CheeseBallz/Smart-Parking-System',
     },
   },
 ];
@@ -293,7 +313,7 @@ export default function Home() {
               p-6 sm:p-10 lg:p-14
             "
           >
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6 sm:mb-8">
+            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6 sm:mb-8 text-center">
               Projects
             </h2>
 
